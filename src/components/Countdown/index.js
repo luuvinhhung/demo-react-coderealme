@@ -28,7 +28,7 @@ export default class Countdown extends Component {
   }
   handlePausedToggle () {
     this.setState((prevState, props) => {
-      console.log(prevState, props)
+      // console.log(prevState, props)
       const paused = !prevState.paused
       if (paused) {
         this.pause()
@@ -45,7 +45,7 @@ export default class Countdown extends Component {
       nextDate
     })
     this.pause()
-    console.log(this.state.nextDate)
+    // console.log(this.state.nextDate)
   }
   pause () {
     clearInterval(this.interval)
@@ -58,14 +58,14 @@ export default class Countdown extends Component {
     }, 1000)
   }
   render () {
-    const { paused } = this.state
+    const { paused, nextDate } = this.state
     const duration = this.getRemainingTime()
     return (
       <section className='hero is-dark is-fullheight has-text-centered'>
         <div className='hero-body'>
           <div className='container'>
             <h1 className='title'>
-              Countdown to new year:
+              Countdown to {nextDate.format('DD-MMM-YYYY').toString()}:
             </h1>
             <section className='section'>
               <Timer duration={duration} />
