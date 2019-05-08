@@ -1,12 +1,6 @@
 import React from 'react'
-import Countdown from './Countdown'
+import Countdown from './Countdown/index'
 
-function App () {
-  return (
-    <div>
-      <Countdown />
-    </div>
-  )
-}
+const App = (props) => <Countdown />
 
 export default App
