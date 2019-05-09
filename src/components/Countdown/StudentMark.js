@@ -1,9 +1,7 @@
 import React from 'react'
 import 'antd/dist/antd.css'
-import { Button, Table, Row, Input, Icon } from 'antd'
+import { Button, Table, Input, Icon } from 'antd'
 import Highlighter from 'react-highlight-words';
-
-const Search = Input.Search;
 export default class StudentMark extends React.Component {
   state = {
     data: [

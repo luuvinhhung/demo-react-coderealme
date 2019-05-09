@@ -1,52 +1,53 @@
 import React, { Component } from 'react'
 import moment from 'moment'
-export default class Datepicker extends Component {
+export default class extends Component {
   state = {
     date: '',
-    valid: true
+    valid: true,
+    // dirty check input change
+    dirty: false
   }
   handleOnChange = ({ target: { value } }) => {
     // console.log(value)
-    const date = moment(value)
-    this.setState({
-      date: value
-    })
-  }
-  handleDateSubmit = e => {
-    const { date, valid } = this.state
-    e.preventDefault()
-    this.setState({
-      valid: moment(date).isValid()
-    })
+    // const date = moment(value)
+    // convert value to datetime format
+    const date = moment(value),
+      valid = date.isValid() && date.isAfter(moment(date))
 
-    console.log(valid)
-    // convert string to datetime format DD-MM-YYYY
-    const myDate = moment(date, 'DD-MM-YYYY')
+    this.setState({
+      valid,
+      date: value,
+      dirty: true
+    })
     // truyen myDate tu component con sang cha qua callback func onDateReset
-    valid && this.props.onDateReset(myDate)
-    console.log('Invalid')
+    valid && this.props.onDateReset(date)
   }
 
-  render () {
-    const { date } = this.state
+  render() {
+    let { date, valid, dirty } = this.state
+    let classes = 'input is-medium is-rounded '
+    // kiem tra khi input change neu valid thi bt else them is-danger khung input
+    valid && dirty && (classes += 'is-success')
+    !valid && dirty && (classes += 'is-danger')
     return (
-      <form onSubmit={this.handleDateSubmit}>
-        <div className='field is-grouped is-grouped-centered'
-          style={{ marginTop: 30, marginBottom: 20 }}>
-          <div className='control'>
-            <input className='input is-rounded'
-              value={date}
-              onChange={(e) => this.handleOnChange(e)}
-              type='text'
-              placeholder='DD-MM-YYYY' />
-          </div>
-          <div className='control'>
-            <button className='button is-rounded is-primary is-outlined'>
-              Reset
-            </button>
-          </div>
+      <div className='field is-grouped is-grouped-centered'
+        style={{ marginTop: 30, marginBottom: 20 }}>
+        <div className='control'>
+          <input className={classes}
+            value={date}
+            onChange={(e) => this.handleOnChange(e)}
+            type='text'
+            placeholder='DD-MM-YYYY' />
+          {!valid && <p className="help is-danger is-size-6">
+            Please tyo
+              </p>}
         </div>
-      </form>
+        {/* <div className='control'>
+          <button className='button is-rounded is-primary is-outlined'>
+            Reset
+            </button>
+        </div> */}
+      </div>
     )
   }
 }
